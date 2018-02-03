@@ -1,3 +1,3 @@
-# Spark with Java - chapter 7
+# Spark with Java - chapter 8
 
-This chapter covers file ingestion from CSV, JSON, XML, and text.
+This chapter covers data ingestion from databases.

@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch07.lab_500.rdbms_ingestion;
+package net.jgp.books.sparkWithJava.ch08.lab_100.mysql_ingestion;
 
 import java.util.Properties;
 
