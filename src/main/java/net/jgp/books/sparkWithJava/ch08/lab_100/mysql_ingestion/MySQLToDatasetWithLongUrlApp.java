@@ -7,11 +7,12 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * MySQL injection to Spark, using the Sakila sample database.
+ * MySQL injection to Spark, using the Sakila sample database, without using
+ * properties
  * 
  * @author jgp
  */
-public class MySQLToDatasetApp {
+public class MySQLToDatasetWithLongUrlApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,7 +20,7 @@ public class MySQLToDatasetApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLToDatasetApp app = new MySQLToDatasetApp();
+    MySQLToDatasetWithLongUrlApp app = new MySQLToDatasetWithLongUrlApp();
     app.start();
   }
 
@@ -32,21 +33,19 @@ public class MySQLToDatasetApp {
         .master("local")
         .getOrCreate();
 
-    // Using properties
-    java.util.Properties props = new Properties();
-    props.put("user", "root");
-    props.put("password", "Spark<3Java");
-    props.put("useSSL", "false");
-    props.put("serverTimezone", "EST");
+    // Using a JDBC URL
+    String jdbcUrl = "jdbc:mysql://localhost:3306/sakila"
+        + "?user=root"
+        + "&password=Spark<3Java"
+        + "&useSSL=false"
+        + "&serverTimezone=EST";
 
+    // And read in one shot
     Dataset<Row> df = spark.read()
-        .jdbc(
-            "jdbc:mysql://localhost:3306/sakila",
-            "actor",
-            props);
-
+        .jdbc(jdbcUrl, "actor", new Properties());
+    
     // Displays the dataframe and some of its metadata
-    df.show(5);
+    df.show();
     df.printSchema();
     System.out.println("The dataframe contains "
         + df.count()

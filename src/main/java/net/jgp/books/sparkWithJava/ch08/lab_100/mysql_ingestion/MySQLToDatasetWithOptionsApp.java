@@ -1,17 +1,16 @@
 package net.jgp.books.sparkWithJava.ch08.lab_100.mysql_ingestion;
 
-import java.util.Properties;
-
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * MySQL injection to Spark, using the Sakila sample database.
+ * MySQL injection to Spark, using the Sakila sample database, without using
+ * properties
  * 
  * @author jgp
  */
-public class MySQLToDatasetApp {
+public class MySQLToDatasetWithOptionsApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,7 +18,8 @@ public class MySQLToDatasetApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLToDatasetApp app = new MySQLToDatasetApp();
+    MySQLToDatasetWithOptionsApp app =
+        new MySQLToDatasetWithOptionsApp();
     app.start();
   }
 
@@ -32,21 +32,19 @@ public class MySQLToDatasetApp {
         .master("local")
         .getOrCreate();
 
-    // Using properties
-    java.util.Properties props = new Properties();
-    props.put("user", "root");
-    props.put("password", "Spark<3Java");
-    props.put("useSSL", "false");
-    props.put("serverTimezone", "EST");
-
+    // In a "one-liner" with method chaining and options
     Dataset<Row> df = spark.read()
-        .jdbc(
-            "jdbc:mysql://localhost:3306/sakila",
-            "actor",
-            props);
+        .option("url", "jdbc:mysql://localhost:3306/sakila")
+        .option("dbtable", "actor")
+        .option("user", "root")
+        .option("password", "Spark<3Java")
+        .option("useSSL", "false")
+        .option("serverTimezone", "EST")
+        .format("jdbc")
+        .load();
 
     // Displays the dataframe and some of its metadata
-    df.show(5);
+    df.show();
     df.printSchema();
     System.out.println("The dataframe contains "
         + df.count()
