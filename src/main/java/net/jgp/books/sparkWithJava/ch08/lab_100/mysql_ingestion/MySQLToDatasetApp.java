@@ -15,7 +15,8 @@ public class MySQLToDatasetApp {
 
   private void start() {
     SparkSession spark = SparkSession.builder()
-        .appName("MySQL to Dataframe using a JDBC Connection")
+        .appName(
+            "MySQL to Dataframe using a JDBC Connection")
         .master("local")
         .getOrCreate();
 
@@ -23,7 +24,7 @@ public class MySQLToDatasetApp {
     props.put("user", "root");
     props.put("password", "password");
     props.put("useSSL", "false");
-    
+
     Dataset<Row> df = spark.read().jdbc(
         "jdbc:mysql://localhost:3306/sakila?serverTimezone=EST",
         "actor", props);
