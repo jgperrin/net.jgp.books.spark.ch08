@@ -22,7 +22,7 @@ public class MySQLToDatasetApp {
 
     java.util.Properties props = new Properties();
     props.put("user", "root");
-    props.put("password", "password");
+    props.put("password", "Spark<3Java");
     props.put("useSSL", "false");
 
     Dataset<Row> df = spark.read().jdbc(
