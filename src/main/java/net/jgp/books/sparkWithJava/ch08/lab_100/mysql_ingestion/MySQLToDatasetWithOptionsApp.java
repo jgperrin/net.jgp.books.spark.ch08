@@ -42,9 +42,10 @@ public class MySQLToDatasetWithOptionsApp {
         .option("serverTimezone", "EST")
         .format("jdbc")
         .load();
-
+    df = df.orderBy(df.col("last_name"));
+    
     // Displays the dataframe and some of its metadata
-    df.show();
+    df.show(5);
     df.printSchema();
     System.out.println("The dataframe contains "
         + df.count()

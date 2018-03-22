@@ -13,8 +13,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
     <scala.version>2.11</scala.version>
-    <spark.version>2.2.0</spark.version>
+    <spark.version>2.3.0</spark.version>
     <mysql.version>8.0.8-dmr</mysql.version>
+    <informix-jdbc.version>4.10.8.1</informix-jdbc.version>
     <elasticsearch-hadoop.version>6.2.1</elasticsearch-hadoop.version>
   </properties>
 
@@ -42,6 +43,12 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.ibm.informix</groupId>
+      <artifactId>jdbc</artifactId>
+      <version>${informix-jdbc.version}</version>
     </dependency>
 
     <dependency>

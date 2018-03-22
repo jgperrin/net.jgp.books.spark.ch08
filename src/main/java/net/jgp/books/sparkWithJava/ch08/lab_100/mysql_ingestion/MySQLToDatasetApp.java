@@ -34,7 +34,7 @@ public class MySQLToDatasetApp {
         .getOrCreate();
 
     // Using properties
-    java.util.Properties props = new Properties();
+    Properties props = new Properties();
     props.put("user", "root");
     props.put("password", "Spark<3Java");
     props.put("useSSL", "false");
@@ -47,8 +47,7 @@ public class MySQLToDatasetApp {
     // Displays the dataframe and some of its metadata
     df.show(5);
     df.printSchema();
-    System.out.println("The dataframe contains "
-        + df.count()
-        + " record(s).");
+    System.out.println("The dataframe contains " + df
+        .count() + " record(s).");
   }
 }

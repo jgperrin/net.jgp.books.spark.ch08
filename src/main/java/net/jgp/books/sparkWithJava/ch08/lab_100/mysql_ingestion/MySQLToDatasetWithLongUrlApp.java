@@ -43,6 +43,7 @@ public class MySQLToDatasetWithLongUrlApp {
     // And read in one shot
     Dataset<Row> df = spark.read()
         .jdbc(jdbcUrl, "actor", new Properties());
+    df = df.orderBy(df.col("last_name"));
     
     // Displays the dataframe and some of its metadata
     df.show();
