@@ -1,39 +1,20 @@
-/**
- * 
- */
 package net.jgp.books.sparkWithJava.ch08.lab_200.informix_dialect;
 
-import java.sql.Connection;
-
 import org.apache.spark.sql.jdbc.JdbcDialect;
-import org.apache.spark.sql.jdbc.JdbcType;
 import org.apache.spark.sql.types.DataType;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.MetadataBuilder;
 
 import scala.Option;
-import scala.collection.immutable.Map;
 
 /**
+ * An Informix dialect for Apache Spark.
+ * 
  * @author jgp
- *
- */
+ */     
 public class InformixJdbcDialect extends JdbcDialect {
-  private static final long serialVersionUID =
-      -6236667577063262901L;
+  private static final long serialVersionUID = -672901;
 
-  @Override
-  public void beforeFetch(
-      Connection connection,
-      Map<String, String> properties) {
-    super.beforeFetch(connection, properties);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.apache.spark.sql.jdbc.JdbcDialect#canHandle(java.lang.String)
-   */
   @Override
   public boolean canHandle(String url) {
     return url.startsWith("jdbc:informix-sqli");
@@ -74,23 +55,5 @@ public class InformixJdbcDialect extends JdbcDialect {
       return Option.apply(DataTypes.BinaryType);
     }
     return Option.empty();
-  }
-
-  @Override
-  public Option<JdbcType> getJDBCType(DataType dt) {
-    if (DataTypes.StringType.sameType(dt)) {
-      return Option.apply(new JdbcType("calendarpattern",
-          java.sql.Types.BLOB));
-    }
-    if (DataTypes.StringType.sameType(dt)) {
-      return Option.apply(new JdbcType("2000",
-          java.sql.Types.BLOB));
-    }
-    return Option.empty();
-  }
-
-  @Override
-  public String quoteIdentifier(String colName) {
-    return super.quoteIdentifier(colName);
   }
 }
