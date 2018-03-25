@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
  * 
  * @author jgp
  */
-public class MySQLAdvancedQueryToDatasetApp {
+public class MySQLWithWhereClauseToDatasetApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,7 +19,8 @@ public class MySQLAdvancedQueryToDatasetApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLAdvancedQueryToDatasetApp app = new MySQLAdvancedQueryToDatasetApp();
+    MySQLWithWhereClauseToDatasetApp app =
+        new MySQLWithWhereClauseToDatasetApp();
     app.start();
   }
 
@@ -29,7 +30,7 @@ public class MySQLAdvancedQueryToDatasetApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL to Dataframe using a JDBC Connection")
+            "MySQL with where clause to Dataframe using a JDBC Connection")
         .master("local")
         .getOrCreate();
 
@@ -40,9 +41,17 @@ public class MySQLAdvancedQueryToDatasetApp {
     props.put("useSSL", "false");
     props.put("serverTimezone", "EST");
 
+    String sqlQuery = "select * from film where "
+        + "(title like \"%ALIEN%\" or title like \"%victory%\" "
+        + "or title like \"%agent%\" or description like \"%action%\") "
+        + "and rental_rate>1 "
+        + "and (rating=\"G\" or rating=\"PG\")";
+
+    // Let's look for all movies matching the query
     Dataset<Row> df = spark.read().jdbc(
         "jdbc:mysql://localhost:3306/sakila",
-        "film", props);
+        "(" + sqlQuery + ") film_alias",
+        props);
 
     // Displays the dataframe and some of its metadata
     df.show(5);
