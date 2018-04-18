@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab_311.sql_joins;
+package net.jgp.books.sparkWithJava.ch08.lab320.ingestionPartitioning;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
  * 
  * @author jgp
  */
-public class MySQLWithJoinToDatasetApp {
+public class MySQLToDatasetWithoutPartitionApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,8 +19,8 @@ public class MySQLWithJoinToDatasetApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLWithJoinToDatasetApp app =
-        new MySQLWithJoinToDatasetApp();
+    MySQLToDatasetWithoutPartitionApp app =
+        new MySQLToDatasetWithoutPartitionApp();
     app.start();
   }
 
@@ -30,7 +30,7 @@ public class MySQLWithJoinToDatasetApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL with join to Dataframe using JDBC")
+            "MySQL to Dataframe using JDBC with partioning")
         .master("local")
         .getOrCreate();
 
@@ -41,16 +41,10 @@ public class MySQLWithJoinToDatasetApp {
     props.put("useSSL", "false");
     props.put("serverTimezone", "EST");
 
-    // Builds the SQL query doing the join operation
-    String sqlQuery =
-        "select * "
-            + "from actor, film_actor, film "
-            + "where actor.actor_id = film_actor.actor_id "
-            + "and film_actor.film_id = film.film_id";
-
+    // Let's look for all movies matching the query
     Dataset<Row> df = spark.read().jdbc(
         "jdbc:mysql://localhost:3306/sakila",
-        "(" + sqlQuery + ") actor_film_alias",
+        "film",
         props);
 
     // Displays the dataframe and some of its metadata
@@ -58,5 +52,7 @@ public class MySQLWithJoinToDatasetApp {
     df.printSchema();
     System.out.println("The dataframe contains " + df
         .count() + " record(s).");
+    System.out.println("The dataframe is split over " + df.rdd()
+        .getPartitions().length + " partition(s).");
   }
 }

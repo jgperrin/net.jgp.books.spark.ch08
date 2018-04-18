@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab_400.es_ingestion;
+package net.jgp.books.sparkWithJava.ch08.lab400.elasticsearchIngestion;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;

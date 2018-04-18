@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab_310.sql_joins;
+package net.jgp.books.sparkWithJava.ch08.lab100.mysqlIngestion;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
  * 
  * @author jgp
  */
-public class MySQLWithJoinToDatasetApp {
+public class MySQLToDatasetApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,8 +19,7 @@ public class MySQLWithJoinToDatasetApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLWithJoinToDatasetApp app =
-        new MySQLWithJoinToDatasetApp();
+    MySQLToDatasetApp app = new MySQLToDatasetApp();
     app.start();
   }
 
@@ -30,7 +29,7 @@ public class MySQLWithJoinToDatasetApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL with join to Dataframe using JDBC")
+            "MySQL to Dataframe using a JDBC Connection")
         .master("local")
         .getOrCreate();
 
@@ -39,20 +38,11 @@ public class MySQLWithJoinToDatasetApp {
     props.put("user", "root");
     props.put("password", "Spark<3Java");
     props.put("useSSL", "false");
-    props.put("serverTimezone", "EST");
-
-    // Builds the SQL query doing the join operation
-    String sqlQuery =
-        "select actor.first_name, actor.last_name, film.title, "
-            + "film.description "
-            + "from actor, film_actor, film "
-            + "where actor.actor_id = film_actor.actor_id "
-            + "and film_actor.film_id = film.film_id";
 
     Dataset<Row> df = spark.read().jdbc(
-        "jdbc:mysql://localhost:3306/sakila",
-        "(" + sqlQuery + ") actor_film_alias",
-        props);
+        "jdbc:mysql://localhost:3306/sakila?serverTimezone=EST",
+        "actor", props);
+    df = df.orderBy(df.col("last_name"));
 
     // Displays the dataframe and some of its metadata
     df.show(5);

@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab_320.ingestion_partinioning;
+package net.jgp.books.sparkWithJava.ch08.lab300.advancedQueries;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
  * 
  * @author jgp
  */
-public class MySQLToDatasetWithoutPartitionApp {
+public class MySQLWithWhereClauseToDatasetApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,8 +19,8 @@ public class MySQLToDatasetWithoutPartitionApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLToDatasetWithoutPartitionApp app =
-        new MySQLToDatasetWithoutPartitionApp();
+    MySQLWithWhereClauseToDatasetApp app =
+        new MySQLWithWhereClauseToDatasetApp();
     app.start();
   }
 
@@ -30,7 +30,7 @@ public class MySQLToDatasetWithoutPartitionApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL to Dataframe using JDBC with partioning")
+            "MySQL with where clause to Dataframe using a JDBC Connection")
         .master("local")
         .getOrCreate();
 
@@ -41,10 +41,16 @@ public class MySQLToDatasetWithoutPartitionApp {
     props.put("useSSL", "false");
     props.put("serverTimezone", "EST");
 
+    String sqlQuery = "select * from film where "
+        + "(title like \"%ALIEN%\" or title like \"%victory%\" "
+        + "or title like \"%agent%\" or description like \"%action%\") "
+        + "and rental_rate>1 "
+        + "and (rating=\"G\" or rating=\"PG\")";
+
     // Let's look for all movies matching the query
     Dataset<Row> df = spark.read().jdbc(
         "jdbc:mysql://localhost:3306/sakila",
-        "film",
+        "(" + sqlQuery + ") film_alias",
         props);
 
     // Displays the dataframe and some of its metadata
@@ -52,7 +58,5 @@ public class MySQLToDatasetWithoutPartitionApp {
     df.printSchema();
     System.out.println("The dataframe contains " + df
         .count() + " record(s).");
-    System.out.println("The dataframe is split over " + df.rdd()
-        .getPartitions().length + " partition(s).");
   }
 }

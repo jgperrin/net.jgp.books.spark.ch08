@@ -1,4 +1,6 @@
-package net.jgp.books.sparkWithJava.ch08.lab_100.mysql_ingestion;
+package net.jgp.books.sparkWithJava.ch08.lab100.mysqlIngestion;
+
+import java.util.Properties;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -10,7 +12,7 @@ import org.apache.spark.sql.SparkSession;
  * 
  * @author jgp
  */
-public class MySQLToDatasetWithOptionsApp {
+public class MySQLToDatasetWithLongUrlApp {
 
   /**
    * main() is your entry point to the application.
@@ -18,8 +20,7 @@ public class MySQLToDatasetWithOptionsApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLToDatasetWithOptionsApp app =
-        new MySQLToDatasetWithOptionsApp();
+    MySQLToDatasetWithLongUrlApp app = new MySQLToDatasetWithLongUrlApp();
     app.start();
   }
 
@@ -32,20 +33,20 @@ public class MySQLToDatasetWithOptionsApp {
         .master("local")
         .getOrCreate();
 
-    // In a "one-liner" with method chaining and options
+    // Using a JDBC URL
+    String jdbcUrl = "jdbc:mysql://localhost:3306/sakila"
+        + "?user=root"
+        + "&password=Spark<3Java"
+        + "&useSSL=false"
+        + "&serverTimezone=EST";
+
+    // And read in one shot
     Dataset<Row> df = spark.read()
-        .option("url", "jdbc:mysql://localhost:3306/sakila")
-        .option("dbtable", "actor")
-        .option("user", "root")
-        .option("password", "Spark<3Java")
-        .option("useSSL", "false")
-        .option("serverTimezone", "EST")
-        .format("jdbc")
-        .load();
+        .jdbc(jdbcUrl, "actor", new Properties());
     df = df.orderBy(df.col("last_name"));
     
     // Displays the dataframe and some of its metadata
-    df.show(5);
+    df.show();
     df.printSchema();
     System.out.println("The dataframe contains "
         + df.count()

@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab_300.advanced_queries;
+package net.jgp.books.sparkWithJava.ch08.lab311.sqlJoins;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
  * 
  * @author jgp
  */
-public class MySQLWithWhereClauseToDatasetApp {
+public class MySQLWithJoinToDatasetApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,8 +19,8 @@ public class MySQLWithWhereClauseToDatasetApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLWithWhereClauseToDatasetApp app =
-        new MySQLWithWhereClauseToDatasetApp();
+    MySQLWithJoinToDatasetApp app =
+        new MySQLWithJoinToDatasetApp();
     app.start();
   }
 
@@ -30,7 +30,7 @@ public class MySQLWithWhereClauseToDatasetApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL with where clause to Dataframe using a JDBC Connection")
+            "MySQL with join to Dataframe using JDBC")
         .master("local")
         .getOrCreate();
 
@@ -41,16 +41,16 @@ public class MySQLWithWhereClauseToDatasetApp {
     props.put("useSSL", "false");
     props.put("serverTimezone", "EST");
 
-    String sqlQuery = "select * from film where "
-        + "(title like \"%ALIEN%\" or title like \"%victory%\" "
-        + "or title like \"%agent%\" or description like \"%action%\") "
-        + "and rental_rate>1 "
-        + "and (rating=\"G\" or rating=\"PG\")";
+    // Builds the SQL query doing the join operation
+    String sqlQuery =
+        "select * "
+            + "from actor, film_actor, film "
+            + "where actor.actor_id = film_actor.actor_id "
+            + "and film_actor.film_id = film.film_id";
 
-    // Let's look for all movies matching the query
     Dataset<Row> df = spark.read().jdbc(
         "jdbc:mysql://localhost:3306/sakila",
-        "(" + sqlQuery + ") film_alias",
+        "(" + sqlQuery + ") actor_film_alias",
         props);
 
     // Displays the dataframe and some of its metadata

@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab_320.ingestion_partinioning;
+package net.jgp.books.sparkWithJava.ch08.lab310.sqlJoins;
 
 import java.util.Properties;
 
@@ -7,12 +7,11 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * Partitioning the film table in 10 for a MySQL injection to Spark, using the
- * Sakila sample database.
+ * MySQL injection to Spark, using the Sakila sample database.
  * 
  * @author jgp
  */
-public class MySQLToDatasetWithPartitionApp {
+public class MySQLWithJoinToDatasetApp {
 
   /**
    * main() is your entry point to the application.
@@ -20,8 +19,8 @@ public class MySQLToDatasetWithPartitionApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLToDatasetWithPartitionApp app =
-        new MySQLToDatasetWithPartitionApp();
+    MySQLWithJoinToDatasetApp app =
+        new MySQLWithJoinToDatasetApp();
     app.start();
   }
 
@@ -31,7 +30,7 @@ public class MySQLToDatasetWithPartitionApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL to Dataframe using JDBC with partioning")
+            "MySQL with join to Dataframe using JDBC")
         .master("local")
         .getOrCreate();
 
@@ -42,16 +41,17 @@ public class MySQLToDatasetWithPartitionApp {
     props.put("useSSL", "false");
     props.put("serverTimezone", "EST");
 
-    // Used for partitioning
-    props.put("partitionColumn", "film_id");
-    props.put("lowerBound", "1");
-    props.put("upperBound", "1000");
-    props.put("numPartitions", "10");
+    // Builds the SQL query doing the join operation
+    String sqlQuery =
+        "select actor.first_name, actor.last_name, film.title, "
+            + "film.description "
+            + "from actor, film_actor, film "
+            + "where actor.actor_id = film_actor.actor_id "
+            + "and film_actor.film_id = film.film_id";
 
-    // Let's look for all movies matching the query
     Dataset<Row> df = spark.read().jdbc(
         "jdbc:mysql://localhost:3306/sakila",
-        "film",
+        "(" + sqlQuery + ") actor_film_alias",
         props);
 
     // Displays the dataframe and some of its metadata
@@ -59,7 +59,5 @@ public class MySQLToDatasetWithPartitionApp {
     df.printSchema();
     System.out.println("The dataframe contains " + df
         .count() + " record(s).");
-    System.out.println("The dataframe is split over " + df.rdd()
-        .getPartitions().length + " partition(s).");
   }
 }

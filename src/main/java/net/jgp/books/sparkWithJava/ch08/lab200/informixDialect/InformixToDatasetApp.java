@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab_200.informix_dialect;
+package net.jgp.books.sparkWithJava.ch08.lab200.informixDialect;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
