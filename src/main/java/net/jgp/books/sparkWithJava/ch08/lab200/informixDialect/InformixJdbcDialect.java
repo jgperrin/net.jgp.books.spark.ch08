@@ -54,6 +54,7 @@ public class InformixJdbcDialect extends JdbcDialect {
         "tspartitiondesc_t") == 0) {
       return Option.apply(DataTypes.BinaryType);
     }
-    return Option.empty();
+    
+    return Option.empty(); // An object from the Scala library
   }
 }
