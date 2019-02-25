@@ -1,4 +1,4 @@
-package net.jgp.books.spark.ch08.lab100.mysqlIngestion;
+package net.jgp.books.spark.ch08.lab100_mysql_ingestion;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
