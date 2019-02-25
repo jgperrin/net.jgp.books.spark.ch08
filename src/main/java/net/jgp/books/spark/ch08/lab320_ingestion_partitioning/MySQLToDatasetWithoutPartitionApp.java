@@ -1,4 +1,4 @@
-package net.jgp.books.spark.ch08.lab320.ingestionPartitioning;
+package net.jgp.books.spark.ch08.lab320_ingestion_partitioning;
 
 import java.util.Properties;
 

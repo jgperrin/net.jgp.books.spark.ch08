@@ -1,4 +1,4 @@
-package net.jgp.books.spark.ch08.lab310.sqlJoins;
+package net.jgp.books.spark.ch08.lab310_sql_joins;
 
 import java.util.Properties;
 

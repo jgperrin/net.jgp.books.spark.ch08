@@ -4,7 +4,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.StructType;
 
-public class SchemaInspector {
+public class SchemaInspectorUtils {
 
   public static void print(StructType schema) {
     print (null, schema);
