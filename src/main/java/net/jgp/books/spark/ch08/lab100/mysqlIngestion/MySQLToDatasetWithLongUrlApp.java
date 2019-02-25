@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab100.mysqlIngestion;
+package net.jgp.books.spark.ch08.lab100.mysqlIngestion;
 
 import java.util.Properties;
 

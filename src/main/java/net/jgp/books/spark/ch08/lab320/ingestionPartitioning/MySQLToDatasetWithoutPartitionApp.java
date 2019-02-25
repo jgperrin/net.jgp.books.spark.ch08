@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab100.mysqlIngestion;
+package net.jgp.books.spark.ch08.lab320.ingestionPartitioning;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.apache.spark.sql.SparkSession;
  * 
  * @author jgp
  */
-public class MySQLToDatasetApp {
+public class MySQLToDatasetWithoutPartitionApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,7 +19,8 @@ public class MySQLToDatasetApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLToDatasetApp app = new MySQLToDatasetApp();
+    MySQLToDatasetWithoutPartitionApp app =
+        new MySQLToDatasetWithoutPartitionApp();
     app.start();
   }
 
@@ -29,7 +30,7 @@ public class MySQLToDatasetApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL to Dataframe using a JDBC Connection")
+            "MySQL to Dataframe using JDBC with partioning")
         .master("local")
         .getOrCreate();
 
@@ -38,16 +39,20 @@ public class MySQLToDatasetApp {
     props.put("user", "root");
     props.put("password", "Spark<3Java");
     props.put("useSSL", "false");
+    props.put("serverTimezone", "EST");
 
+    // Let's look for all movies matching the query
     Dataset<Row> df = spark.read().jdbc(
-        "jdbc:mysql://localhost:3306/sakila?serverTimezone=EST",
-        "actor", props);
-    df = df.orderBy(df.col("last_name"));
+        "jdbc:mysql://localhost:3306/sakila",
+        "film",
+        props);
 
     // Displays the dataframe and some of its metadata
     df.show(5);
     df.printSchema();
     System.out.println("The dataframe contains " + df
         .count() + " record(s).");
+    System.out.println("The dataframe is split over " + df.rdd()
+        .getPartitions().length + " partition(s).");
   }
 }

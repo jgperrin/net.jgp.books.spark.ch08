@@ -1,4 +1,4 @@
-package net.jgp.books.sparkWithJava.ch08.lab320.ingestionPartitioning;
+package net.jgp.books.spark.ch08.lab320.ingestionPartitioning;
 
 import java.util.Properties;
 
@@ -7,11 +7,12 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * MySQL injection to Spark, using the Sakila sample database.
+ * Partitioning the film table in 10 for a MySQL injection to Spark, using the
+ * Sakila sample database.
  * 
  * @author jgp
  */
-public class MySQLToDatasetWithoutPartitionApp {
+public class MySQLToDatasetWithPartitionApp {
 
   /**
    * main() is your entry point to the application.
@@ -19,8 +20,8 @@ public class MySQLToDatasetWithoutPartitionApp {
    * @param args
    */
   public static void main(String[] args) {
-    MySQLToDatasetWithoutPartitionApp app =
-        new MySQLToDatasetWithoutPartitionApp();
+    MySQLToDatasetWithPartitionApp app =
+        new MySQLToDatasetWithPartitionApp();
     app.start();
   }
 
@@ -40,6 +41,12 @@ public class MySQLToDatasetWithoutPartitionApp {
     props.put("password", "Spark<3Java");
     props.put("useSSL", "false");
     props.put("serverTimezone", "EST");
+
+    // Used for partitioning
+    props.put("partitionColumn", "film_id");
+    props.put("lowerBound", "1");
+    props.put("upperBound", "1000");
+    props.put("numPartitions", "10");
 
     // Let's look for all movies matching the query
     Dataset<Row> df = spark.read().jdbc(
