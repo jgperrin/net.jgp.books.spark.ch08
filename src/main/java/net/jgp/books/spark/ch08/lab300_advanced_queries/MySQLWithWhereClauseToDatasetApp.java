@@ -1,4 +1,4 @@
-package net.jgp.books.spark.ch08.lab300.advancedQueries;
+package net.jgp.books.spark.ch08.lab300_advanced_queries;
 
 import java.util.Properties;
 

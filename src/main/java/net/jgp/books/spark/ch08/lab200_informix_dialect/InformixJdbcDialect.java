@@ -1,4 +1,4 @@
-package net.jgp.books.spark.ch08.lab200.informixDialect;
+package net.jgp.books.spark.ch08.lab200_informix_dialect;
 
 import org.apache.spark.sql.jdbc.JdbcDialect;
 import org.apache.spark.sql.types.DataType;
