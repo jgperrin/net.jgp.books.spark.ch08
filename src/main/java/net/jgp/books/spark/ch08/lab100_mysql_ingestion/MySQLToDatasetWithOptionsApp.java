@@ -43,7 +43,7 @@ public class MySQLToDatasetWithOptionsApp {
         .format("jdbc")
         .load();
     df = df.orderBy(df.col("last_name"));
-    
+
     // Displays the dataframe and some of its metadata
     df.show(5);
     df.printSchema();

@@ -5,7 +5,8 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * Connects Spark and Elasticsearch, ingests data from Elasticsearch in Spark.
+ * Connects Spark and Elasticsearch, ingests data from Elasticsearch in
+ * Spark.
  * 
  * @author jgp
  */

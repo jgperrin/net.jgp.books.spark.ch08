@@ -7,8 +7,8 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 /**
- * Partitioning the film table in 10 for a MySQL injection to Spark, using the
- * Sakila sample database.
+ * Partitioning the film table in 10 for a MySQL injection to Spark, using
+ * the Sakila sample database.
  * 
  * @author jgp
  */

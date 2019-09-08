@@ -11,7 +11,7 @@ import scala.Option;
  * An Informix dialect for Apache Spark.
  * 
  * @author jgp
- */     
+ */
 public class InformixJdbcDialect extends JdbcDialect {
   private static final long serialVersionUID = -672901;
 
@@ -54,7 +54,7 @@ public class InformixJdbcDialect extends JdbcDialect {
         "tspartitiondesc_t") == 0) {
       return Option.apply(DataTypes.BinaryType);
     }
-    
+
     return Option.empty(); // An object from the Scala library
   }
 }

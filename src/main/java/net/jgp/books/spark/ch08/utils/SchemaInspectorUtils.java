@@ -7,7 +7,7 @@ import org.apache.spark.sql.types.StructType;
 public class SchemaInspectorUtils {
 
   public static void print(StructType schema) {
-    print (null, schema);
+    print(null, schema);
   }
 
   public static void print(String label, Dataset<Row> df) {
