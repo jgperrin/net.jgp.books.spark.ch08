@@ -30,7 +30,7 @@ public class MySQLToDatasetWithoutPartitionApp {
   private void start() {
     SparkSession spark = SparkSession.builder()
         .appName(
-            "MySQL to Dataframe using JDBC with partioning")
+            "MySQL to Dataframe using JDBC without partitioning")
         .master("local")
         .getOrCreate();
 
