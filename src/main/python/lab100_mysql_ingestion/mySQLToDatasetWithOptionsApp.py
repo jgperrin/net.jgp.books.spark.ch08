@@ -2,6 +2,7 @@
  MySQL injection to Spark, using the Sakila sample database, without using properties
  @author rambabu.posa
 """
+import logging
 from pyspark.sql import SparkSession
 
 # Creates a session on a local master
@@ -22,6 +23,7 @@ df = df.orderBy(df.col("last_name"))
 # Displays the dataframe and some of its metadata
 df.show(5)
 df.printSchema()
-print("The dataframe contains {} record(s).".format(df.count()))
+
+logging.info("The dataframe contains {} record(s).".format(df.count()))
 
 spark.stop()

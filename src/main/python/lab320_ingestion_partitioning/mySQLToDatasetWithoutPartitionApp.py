@@ -3,6 +3,7 @@
 
  @author rambabu.posa
 """
+import logging
 from pyspark.sql import SparkSession
 
 # Creates a session on a local master
@@ -27,7 +28,8 @@ df = df.table("film")
 # Displays the dataframe and some of its metadata
 df.show(5)
 df.printSchema()
-print("The dataframe contains {} record(s).".format(df.count()))
-print("The dataframe is split over ${} partition(s).".format(df.rdd.getNumPartitions()))
+
+logging.info("The dataframe contains {} record(s).".format(df.count()))
+logging.info("The dataframe is split over ${} partition(s).".format(df.rdd.getNumPartitions()))
 
 spark.stop()

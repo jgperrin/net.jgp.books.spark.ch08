@@ -3,8 +3,9 @@
 
  @author rambabu.posa
 """
-from pyspark.sql import SparkSession
 import time
+import logging
+from pyspark.sql import SparkSession
 
 t0 = int(round(time.time() * 1000))
 
@@ -13,7 +14,8 @@ spark = SparkSession.builder.appName("Elasticsearch to Dataframe") \
     .master("local[*]").getOrCreate()
 
 t1 = int(round(time.time() * 1000))
-print("Getting a session took: {} ms".format((t1 - t0)))
+
+logging.info("Getting a session took: {} ms".format((t1 - t0)))
 
 df = spark.read.format("org.elasticsearch.spark.sql") \
     .option("es.nodes", "localhost") \
@@ -23,24 +25,30 @@ df = spark.read.format("org.elasticsearch.spark.sql") \
     .load("nyc_restaurants")
 
 t2 = int(round(time.time() * 1000))
-print("Init communication and starting to get some results took: {} ms".format((t2 - t1)))
+
+logging.info("Init communication and starting to get some results took: {} ms".format((t2 - t1)))
 
 # Shows only a few records as they are pretty long
 df.show(10)
 
 t3 = int(round(time.time() * 1000))
-print("Showing a few records took: {} ms".format((t3 - t2)))
+
+logging.info("Showing a few records took: {} ms".format((t3 - t2)))
 
 df.printSchema()
 t4 = int(round(time.time() * 1000))
-print("Displaying the schema took: {} ms".format((t4 - t3)))
 
-print("The dataframe contains ${df.count} record(s).")
+logging.info("Displaying the schema took: {} ms".format((t4 - t3)))
+
+logging.info("The dataframe contains ${df.count} record(s).")
+
 t5 = int(round(time.time() * 1000))
-print("Counting the number of records took: {} ms".format((t5 - t4)))
+logging.info("Counting the number of records took: {} ms".format((t5 - t4)))
 
-print("The dataframe is split over {} partition(s).".format(df.rdd.getNumPartitions()))
+logging.info("The dataframe is split over {} partition(s).".format(df.rdd.getNumPartitions()))
+
 t6 = int(round(time.time() * 1000))
-print("Counting the # of partitions took: {} ms".format((t6 - t5)))
+
+logging.info("Counting the # of partitions took: {} ms".format((t6 - t5)))
 
 spark.stop()
