@@ -4,6 +4,7 @@ The examples in this repository are support to the **[Spark in Action, 2nd editi
 
 Welcome to Spark with Java, chapter 8. This chapter covers data ingestion from databases.
 
+This code is designed to work with Apache Spark v3.0.0.
 
 The `MySQLToDatasetApp` application does the following:
 
