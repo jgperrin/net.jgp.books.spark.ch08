@@ -6,11 +6,46 @@ Welcome to Spark with Java, chapter 8. This chapter covers data ingestion from d
 
 This code is designed to work with Apache Spark v3.0.0.
 
+## Labs
+
+### Lab \#100
+
 The `MySQLToDatasetApp` application does the following:
 
 1.	It acquires a session (a `SparkSession`).
 2.	It connects to MySQL Database.
 3.	Spark reads data from MySQL Database into dataframe, then perform some operations on dataframe.
+
+### Lab \#101
+
+Same as lab #100, but uses environment variables.
+
+### Lab \#200
+
+Example of building a dialect, here connect IBM Informix and Apache Spark.
+
+### Lab \#300
+
+Advanced queries.
+
+### Lab \#310
+
+Ingestion from SQL joins.
+
+### Lab \#311
+
+Similar to lab #310.
+
+### Lab \#320
+
+Repartitionning after ingestion.
+
+### Lab \#400
+
+Ingestion from Elasticsearch.
+
+Note that, as of now, Elasticsearch does not support Apache Spark v3.x, as the connector is limited to Scala v2.11. To run this example, use `pom-elastic-scale2.11.xml` instead of the default `pom.xml`. 
+
 
 ## Running the lab in Java
 
