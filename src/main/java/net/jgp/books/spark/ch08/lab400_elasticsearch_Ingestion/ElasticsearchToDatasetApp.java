@@ -43,8 +43,10 @@ public class ElasticsearchToDatasetApp {
         .option("es.nodes", "localhost")
         .option("es.port", "9200")
         .option("es.query", "?q=*")
-        .option("es.read.field.as.array.include", "Inspection_Date")
-        .load("nyc_restaurants");
+//        .option("es.read.field.as.array.include", "Inspection_Date")
+        .load("wildfires");
+//        .option("es.read.field.as.array.include", "Inspection_Date")
+//        .load("nyc_restaurants");
 
     long t2 = System.currentTimeMillis();
     System.out.println(
