@@ -14,7 +14,7 @@
   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   <java.version>1.8</java.version>
   <scala.version>2.12</scala.version>
-  <spark.version>3.0.0</spark.version>
+  <spark.version>3.4.0</spark.version>
   <mysql.version>8.0.16</mysql.version>
   <informix-jdbc.version>4.10.8.1</informix-jdbc.version>
   <!-- This will not work, look at pom-elastic-scale2.11.xml for now -->
